@@ -18,14 +18,17 @@ foreach ($kernel as $kernelFile) {
 
 $app->get('/lickey/:key/:deviceid', function($key,$deviceid) use($app) {
 	$params = array('key'=>$key, 'deviceid'=>$deviceid);
-        $response = License::ValidateLicense($params);
+    $response = License::ValidateLicense($params);
 	$app->response()->header("Content-Type", "application/json");
 	echo json_encode($response, JSON_FORCE_OBJECT);
 });
 
-/*
-$app->post('/storeinfo') {
-        
+
+$app->post("/storeinfo", function () use($app) {
+   $params = $app->request()->post();
+   $response = License::StoreInfo($params);
+   $app->response()->header("Content-Type", "application/json");
+   echo json_encode($response, JSON_FORCE_OBJECT);
 });
-*/
+
 $app->run();

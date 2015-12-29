@@ -26,8 +26,8 @@ class License {
       $db = Utility::mysqlRes();
       $license = $db->license()->where("licensekey",$licenseparams['key'])->where("used",0);
        
-      if($license->count()) {
-          if(License::ApplyLicense($licenseparams)){
+      if($license->count()) {      
+		  if(License::ApplyLicense($licenseparams)){
               $response[] = array('error_code'=>'0','status'=>'success','description'=>'Product Activated'); 
           }
       } else {
@@ -51,41 +51,46 @@ class License {
       $db = Utility::mysqlRes();
       $key = $applyparams['key'];
       $deviceid = $applyparams['deviceid'];
-      
-      $data = array("deviceid"=>$deviceid,"used"=>1);
+	  
+      $data = array("licensekey"=>$key,"used"=>1,"deviceid"=>$deviceid);
       $license = $db->license()->where('licensekey',$key);
       if($license->fetch()) {
           try{
               $license->update($data);
-              return true;
+			  return true;
           } catch (Exception $ex) {
               return false;
           }
       }
   }
   
-    
-  public static function ValidateLicense_()  {
-	// Display Keys
-	$response = "";
-	$licenses = array();
-	$db = Utility::mysqlRes();	
-	try {
-                foreach ($db->license() as $licensedata) {
-                $licenses[]  = array(
-                        'status'=>"success",
-                        'id' => $licensedata['id'],
-                        'license' => $licensedata['licensekey']);
-                }
-		$response = $licenses;
-	} 
-	catch (Exception $ex) {
-		$response = array ('status'=>"failed",'description'=>$ex->getMessage());
-	}
-    return $response;
-  }
+  /*
+  @params
   
-  public static function StoreInfo($content) {
-	  $dbres = $this->dbconect();
+  name - Store Name
+  address - Address
+  phone - Phone Number
+  email - Email
+  state - State in the Country
+  city - City (Benin, Auchi)
+  lga - Local Government Area
+  country - Country
+  deviceid - DeviceID
+  
+  */
+  
+  public static function StoreInfo($params) {
+	  $db = Utility::mysqlRes();
+	  $response = array();
+	  $name = empty($params['name']) ? $params['name'] : null;
+	  $address = empty($params['address']) ? $params['address'] : null;
+	  
+	  // Form Validation
+	  if(empty($params['name']) {
+		  
+	  }
+	  
+	  $response = $db->store->insert($params);
+	  
   }
 }
