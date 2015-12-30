@@ -79,18 +79,64 @@ class License {
   
   */
   
-  public static function StoreInfo($params) {
+  public static function StoreInfo($storeparams) {
+	  
 	  $db = Utility::mysqlRes();
 	  $response = array();
-	  $name = empty($params['name']) ? $params['name'] : null;
-	  $address = empty($params['address']) ? $params['address'] : null;
+	  $errors = array();
 	  
-	  // Form Validation
-	  if(empty($params['name']) {
-		  
+	  $name = isset($storeparams['name']) ? $storeparams['name'] : null;
+	  $email = isset($storeparams['email']) ? $storeparams['email'] : null;
+	  $address = isset($storeparams['address']) ? $storeparams['address'] : null;
+	  $phone = isset($storeparams['phone']) ? $storeparams['phone'] : null;
+	  $state = isset($storeparams['state']) ? $storeparams['state'] : null;
+	  $city = isset($storeparams['city']) ? $storeparams['city'] : null;
+	  $lga = isset($storeparams['lga']) ? $storeparams['lga'] : null;
+	  $country = isset($storeparams['country']) ? $storeparams['country'] : null;
+	  $deviceid = isset($storeparams['deviceid']) ? $storeparams['deviceid'] : null;
+	  // Input Validation
+	  if(strlen(trim($name)) === 0){
+        $errors[] = "Please enter your store name!";
 	  }
 	  
-	  $response = $db->store->insert($params);
+	  if(strlen(trim($address)) === 0){
+        $errors[] = "Please enter your store address!";
+	  }
 	  
+	  if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors[] = "Email is not valid!";
+	  }
+	  
+	  if(strlen(trim($state)) === 0){
+        $errors[] = "Please enter your state!";
+	  }
+	  
+	  if(strlen(trim($city)) === 0){
+        $errors[] = "Please enter your city!";
+	  }
+	  
+	  if(strlen(trim($lga)) === 0){
+        $errors[] = "Please enter your local government!";
+	  }
+	  
+	  if(strlen(trim($country)) === 0){
+        $errors[] = "Please enter your country!";
+	  }
+	  
+	  if(strlen(trim($deviceid)) === 0){
+        $errors[] = "Please enter your DeviceID!";
+	  }
+	  // DeviceID Parameter
+	  
+	  if(empty($errors)){
+        //Process Registration.
+		$proc = $db->store->insert($storeparams);
+		$response[] = array('error_code'=>'0','status'=>'ok','description'=>'Success'); 
+      } else {
+		$response[] = array('error_code'=>'1','status'=>'failed','description'=>$errors);
+	  }
+	  return $response; 
   }
+  
+  
 }
