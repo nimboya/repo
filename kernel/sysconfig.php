@@ -5,7 +5,7 @@ $config = array();
 // MySQL CONFIG
 $config['mysqldbhost']   = 'localhost';
 $config['mysqldbuser']   = 'root';
-$config['mysqldbpass']   = 'ayo';
+$config['mysqldbpass']   = 'password';
 $config['mysqldbname']   = 'ssapi';
 $config['dbmethod'] = 'mysql:dbname=';
 Utility::saveConfig($config);

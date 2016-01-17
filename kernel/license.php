@@ -16,10 +16,10 @@ class License {
   */
  public static function ValidateLicense($licenseparams) {
       if(empty($licenseparams['key'])) {
-          $response[] = array('error_code'=>'2','status'=>'failed','description'=>'No License Key Entered');
+          $response = array('error_code'=>'2','status'=>'failed','description'=>'No License Key Entered');
       }
       if(empty($licenseparams['deviceid'])) {
-          $response[] = array('error_code'=>'2','status'=>'failed','description'=>'Device ID is empty');
+          $response = array('error_code'=>'2','status'=>'failed','description'=>'Device ID is empty');
       }
       
       $response = array();
@@ -28,10 +28,10 @@ class License {
        
       if($license->count()) {      
 		  if(License::ApplyLicense($licenseparams)){
-              $response[] = array('error_code'=>'0','status'=>'success','description'=>'Product Activated'); 
+              $response = array('error_code'=>'0','status'=>'success','description'=>'Product Activated'); 
           }
       } else {
-          $response[] = array('error_code'=>'1','status'=>'failed','description'=>'Invalid or Used License Key');
+          $response = array('error_code'=>'1','status'=>'failed','description'=>'Invalid or Used License Key');
       }
       return $response;
   }
@@ -131,9 +131,9 @@ class License {
 	  if(empty($errors)){
         //Process Registration.
 		$proc = $db->store->insert($storeparams);
-		$response[] = array('error_code'=>'0','status'=>'ok','description'=>'Success'); 
+		$response = array('error_code'=>'0','status'=>'ok','description'=>'Success'); 
       } else {
-		$response[] = array('error_code'=>'1','status'=>'failed','description'=>$errors);
+		$response = array('error_code'=>'1','status'=>'failed','description'=>$errors);
 	  }
 	  return $response; 
   }
